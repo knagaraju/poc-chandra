@@ -1,5 +1,4 @@
 
-<div class="container">
 <p>dashboard works!</p>
 <input type="file" #fileImportInput name="CSV File Upload" 
 (change)="fileChangeListener($event)" accept=".csv">
@@ -29,9 +28,7 @@
     </thead>
     <tbody>
         <tr *ngFor="let columnContent of csvTableData1">
-            <td *ngFor="let content of columnContent">{{content}}</td>
+            <td class="table-content" *ngFor="let content of columnContent">{{content}}</td>
         </tr>
     </tbody>
 </table>
-
-</div>
