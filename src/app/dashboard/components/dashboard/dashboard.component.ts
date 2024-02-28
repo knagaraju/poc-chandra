@@ -1,24 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ChangeDetectorRef  } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
 import { MatTableDataSource } from '@angular/material/table';
+// import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSort, Sort} from '@angular/material/sort';
+import {MatPaginator} from '@angular/material/paginator';
+import {LiveAnnouncer} from '@angular/cdk/a11y';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
   selectedCSVFileName = "";
   isCSV_Valid = false;
-  EmpData = [];
+  EmpData: any[] = [];
   dataSource = new MatTableDataSource(this.EmpData);
   csvTableHeader1 = [];
   csvTableData1: any[] = [];
-  customResults = new MatTableDataSource(this.EmpData);
-  constructor(private papa: Papa) {
+  customResults: any = [];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    // TEST IF YOUR PARSER IS WORKING FINE
+  @ViewChild(MatSort) sort: MatSort;
+  constructor(private papa: Papa, private cdr: ChangeDetectorRef, private _liveAnnouncer: LiveAnnouncer) {
     const csvData = '"Hello","World!"';
-
     this.papa.parse(csvData,{
         complete: (result) => {
             console.log('Parsed: ', result);
@@ -27,7 +32,21 @@ export class DashboardComponent implements OnInit {
     
 }
 
-  ngOnInit(): void {
+ngAfterViewInit() {
+  this.customResults.paginator = this.paginator  
+  this.customResults.sort = this.sort;
+  this.cdr.detectChanges();
+}
+
+  ngOnInit() {
+  }
+
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
   }
   fileChangeListener($event: any): void {
 
@@ -55,10 +74,17 @@ export class DashboardComponent implements OnInit {
           let csvTableData = [...results.data.slice(1, results.data.length)];
           this.csvTableData1 = csvTableData;
           // this.customResults = this.transformEmployeeData(results.data);
-          console.log("test",results);
+
+          this.csvTableData1.forEach(item => {
+            let tempResult: any = {};
+            this.csvTableHeader1.forEach((key, i) => tempResult[key] = item[i]);
+            console.log('testing', tempResult);
+            this.customResults.push(tempResult);
+          });
+
           console.log("test",this.customResults);
-          console.log("test-0",csvTableHeader);
-          console.log("test-1",csvTableData);
+          // console.log("test-0",csvTableHeader);
+          // console.log("test-1",csvTableData);
 
         } else {
           for (let i = 0; i < results.errors.length; i++) {
@@ -73,18 +99,18 @@ export class DashboardComponent implements OnInit {
   }
 
   transformEmployeeData(data: any) {
-    // var result = [];
-    // var key, value;
-    // for (var i = 0; i < data.length; i++) {
-    //   var employee = {}; 
-    //   for (var j = 0; j < data[i].length; j++) { 
-    //     key = data[i][j][0]; 
-    //     value = data[i][j][1];
-    //     employee[key] = value; 
-    //   }
-    //   result.push(employee)
-    // }
-    // return result
+    var result = [];
+    var key, value;
+    for (var i = 0; i < data.length; i++) {
+      var employee: any = {}; 
+      for (var j = 0; j < data[i].length; j++) { 
+        key = data[i][j][0]; 
+        value = data[i][j][1];
+        employee[key] = value; 
+      }
+      result.push(employee)
+    }
+    return result
     // return data.map(function(employee: any) {
     //   return employee.reduce(function(a: any, c: any) {
     //     a[c[0]] = c[1]

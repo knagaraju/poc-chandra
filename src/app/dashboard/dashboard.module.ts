@@ -9,7 +9,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { SidenavWrapperComponent } from './components/sidenav-wrapper/sidenav-wrapper.component';
-import {MatTableModule} from '@angular/material/table'
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import {MatSort, MatSortModule} from '@angular/material/sort';
 
 @NgModule({
   declarations: [SidenavWrapperComponent, DashboardComponent, InfoComponent, UserComponent],
@@ -22,7 +24,9 @@ import {MatTableModule} from '@angular/material/table'
     MatIconModule,
     MatListModule,
     MatToolbarModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ]
 })
 export class DashboardModule { }
