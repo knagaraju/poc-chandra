@@ -12,9 +12,12 @@ import { SidenavWrapperComponent } from './components/sidenav-wrapper/sidenav-wr
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
+import { CsvTableComponent } from './components/dashboard/csv-table/csv-table.component';
+import {MatInputModule} from '@angular/material/input';
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 @NgModule({
-  declarations: [SidenavWrapperComponent, DashboardComponent, InfoComponent, UserComponent],
+  declarations: [SidenavWrapperComponent, DashboardComponent, InfoComponent, UserComponent, CsvTableComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,
@@ -26,7 +29,9 @@ import {MatSort, MatSortModule} from '@angular/material/sort';
     MatToolbarModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatInputModule,
+    MatFormFieldModule
   ]
 })
 export class DashboardModule { }

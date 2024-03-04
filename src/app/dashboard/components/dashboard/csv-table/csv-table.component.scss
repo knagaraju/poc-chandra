@@ -1,0 +1,14 @@
+.mat-mdc-table .mat-mdc-header-cell {
+    background: lightblue;
+    // padding: 15px 8px;
+}
+.table-content {
+    min-width: 100px;
+    max-width: 100px;
+    word-wrap: break-word;
+}
+.mat-mdc-table .mat-mdc-cell,
+.mat-mdc-table .mat-mdc-header-cell {
+    min-width: 50px;
+    max-width: 100px;
+}
