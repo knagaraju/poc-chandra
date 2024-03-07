@@ -15,6 +15,7 @@ import {MatSort, MatSortModule} from '@angular/material/sort';
 import { CsvTableComponent } from './components/dashboard/csv-table/csv-table.component';
 import {MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [SidenavWrapperComponent, DashboardComponent, InfoComponent, UserComponent, CsvTableComponent],
@@ -31,7 +32,8 @@ import { MatFormFieldModule } from "@angular/material/form-field";
     MatPaginatorModule,
     MatSortModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    FormsModule
   ]
 })
 export class DashboardModule { }
