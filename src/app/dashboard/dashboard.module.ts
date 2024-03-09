@@ -16,6 +16,8 @@ import { CsvTableComponent } from './components/dashboard/csv-table/csv-table.co
 import {MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { FormsModule } from '@angular/forms';
+import { FileUploadService } from './services/file-upload.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [SidenavWrapperComponent, DashboardComponent, InfoComponent, UserComponent, CsvTableComponent],
@@ -33,7 +35,9 @@ import { FormsModule } from '@angular/forms';
     MatSortModule,
     MatInputModule,
     MatFormFieldModule,
-    FormsModule
-  ]
+    FormsModule,
+    HttpClientModule
+  ],
+  providers: [FileUploadService]
 })
 export class DashboardModule { }
