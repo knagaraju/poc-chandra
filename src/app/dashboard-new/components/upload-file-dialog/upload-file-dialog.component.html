@@ -1,0 +1,17 @@
+<div class="file-upload-container" (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+    <div class="file-upload-area">
+        <div style="width: 100%;">
+            <input type="file" id="fileInput" (change)="onFileSelected($event)">
+            <div>
+                <img width="40px" src="../../../../assets/upload.png" alt="">
+            </div>
+            <div class="drag-drop-text">
+                <span class="dd-txt-bold">Drag & Drop</span>
+                file here
+            </div>
+            <div>Or</div>
+            <label for="fileInput" class="browse-btn">BROWSE FILE</label>
+        </div>
+    </div>
+</div>
+  

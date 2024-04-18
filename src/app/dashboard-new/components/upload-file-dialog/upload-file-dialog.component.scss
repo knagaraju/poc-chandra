@@ -1,0 +1,51 @@
+.file-upload-container {
+    position: relative;
+    width: 450px;
+    height: 250px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .file-upload-area{
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 20px 0px 35px 0px;
+  }
+  .dd-txt-bold{
+    font-weight: 400;
+  }
+  .browse-btn {
+    width: 150px;
+    padding: 10px 15px;
+    background-color: white;
+    color: #00559e;
+    text-align: center;
+    border: 2px solid #00559e;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .drag-drop-text {
+    text-align: center;
+    margin: 10px 0px;
+    color: #777;
+    font-size: 18px;
+  }
+  
+  /* Style the dragover state */
+  .file-upload-container.dragover {
+    border-color: #007bff;
+  }
+  
+  /* Hide the file input */
+  #fileInput {
+    display: none;
+  }
+  

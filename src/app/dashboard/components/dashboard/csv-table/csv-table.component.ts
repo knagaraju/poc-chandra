@@ -12,12 +12,12 @@ import { MatTableDataSource } from '@angular/material/table';
 export class CsvTableComponent implements AfterViewInit, OnInit, OnChanges {
 
   dataSource: any = [];
-  @Input() customResults: any[];
-  @Input() csvTableHeader1: any[];
-  @Input() csvTableData1: any[];
+  @Input() customResults!: any[];
+  @Input() csvTableHeader1!: any[];
+  @Input() csvTableData1!: any[];
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
   flag = false;
 
   constructor(private _liveAnnouncer: LiveAnnouncer) {
