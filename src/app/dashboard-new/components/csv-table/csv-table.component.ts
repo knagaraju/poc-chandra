@@ -14,7 +14,12 @@ export class CsvTableComponent {
   constructor(public dialogRef: MatDialogRef<CsvTableComponent>,
             @Inject(MAT_DIALOG_DATA) public data: any
   ){
-    this.dataSource = this.data;
+    this.dataSource = this.data.map((ele:any, index:number) => {
+      return {
+        ...ele,
+        isDuplicate: index %2 === 0 ? true : false
+      }
+    });
     console.log("this.data ->>", this.data);
   }
 

@@ -19,6 +19,12 @@
     padding: 10px;
 }
 
+.duplicate-record{
+    td{
+        color: red !important;
+    }
+}
+
 .custom-table tbody tr:nth-child(even) td {
     background-color: white;
 }

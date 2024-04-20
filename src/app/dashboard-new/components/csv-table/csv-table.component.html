@@ -15,16 +15,20 @@
                 <th>Table</th>
                 <th>Column</th>
                 <th>Description</th>
+                <th>Comments</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of dataSource; let i = index" [class.secondary-row]="i % 2 === 0">
+              <tr *ngFor="let item of dataSource; let i = index"
+              [class.duplicate-record]="item.isDuplicate"
+              [class.secondary-row]="i % 2 === 0">
                 <td>{{ item.LOB }}</td>
                 <td>{{ item['Subject Area'] }}</td>
                 <td>{{ item.Database }}</td>
                 <td>{{ item.Table }}</td>
                 <td>{{ item.Column }}</td>
                 <td>{{ item.Description }}</td>
+                <td>{{ item.isDuplicate ? 'Duplicate' : 'Ok' }}</td>
               </tr>
             </tbody>
         </table>
