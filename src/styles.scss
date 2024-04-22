@@ -3,3 +3,10 @@
 @import 'material-icons/iconfont/material-icons.css';
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/* If using Emulated or Shadow DOM view encapsulation */
+.custom-table {
+    border-radius: 10px; /* Adjust the value as needed */
+    overflow: hidden;
+}

@@ -8,6 +8,7 @@ import { HomeComponent } from './dashboard-new/components/home/home.component';
 import { UploadFileDialogComponent } from './dashboard-new/components/upload-file-dialog/upload-file-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { CsvTableComponent } from './dashboard-new/components/csv-table/csv-table.component';
+import { AdjustRowHeightDirective } from './dashboard-new/core/adjust-row-height.directive';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { CsvTableComponent } from './dashboard-new/components/csv-table/csv-tabl
     AppComponent,
     HomeComponent,
     UploadFileDialogComponent,
-    CsvTableComponent
+    CsvTableComponent,
+    AdjustRowHeightDirective
   ],
   imports: [
     BrowserModule,

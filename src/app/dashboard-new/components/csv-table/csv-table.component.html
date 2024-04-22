@@ -1,37 +1,117 @@
 <div class="csv-table-container">
-    <div class="d-flex pb-2 align-items-center">
-        <div class="header">Physical Model</div>
-        <div class="ms-auto">
-            <button class="match-btn">Match</button>
+    <div *ngIf="!logicalModelList?.length" class="only-phy-model-area">
+        <div class="d-flex pb-2 align-items-center">
+            <div class="header">Physical Model</div>
+            <div class="ms-auto">
+                <button class="match-btn" (click)="handleMatch()">Match</button>
+            </div>
+        </div>
+        <div class="table-area">
+            <table class="table  table-bordered custom-table">
+                <thead>
+                  <tr>
+                    <th>LOB</th>
+                    <th>Subject Area</th>
+                    <th>Database</th>
+                    <th>Table</th>
+                    <th>Column</th>
+                    <th>Description</th>
+                    <th>Comments</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of dataSource; let i = index"
+                  [class.duplicate-record]="item.isDuplicate"
+                  [class.secondary-row]="i % 2 === 0">
+                    <td>{{ item.LOB }}</td>
+                    <td>{{ item['Subject Area'] }}</td>
+                    <td>{{ item.Database }}</td>
+                    <td>{{ item.Table }}</td>
+                    <td>{{ item.Column }}</td>
+                    <td>{{ item.Description }}</td>
+                    <td>{{ item.isDuplicate ? 'Duplicate' : 'Ok' }}</td>
+                  </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-    <div>
-        <table class="table  table-bordered custom-table">
-            <thead>
-              <tr>
-                <th>LOB</th>
-                <th>Subject Area</th>
-                <th>Database</th>
-                <th>Table</th>
-                <th>Column</th>
-                <th>Description</th>
-                <th>Comments</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of dataSource; let i = index"
-              [class.duplicate-record]="item.isDuplicate"
-              [class.secondary-row]="i % 2 === 0">
-                <td>{{ item.LOB }}</td>
-                <td>{{ item['Subject Area'] }}</td>
-                <td>{{ item.Database }}</td>
-                <td>{{ item.Table }}</td>
-                <td>{{ item.Column }}</td>
-                <td>{{ item.Description }}</td>
-                <td>{{ item.isDuplicate ? 'Duplicate' : 'Ok' }}</td>
-              </tr>
-            </tbody>
-        </table>
+    <div *ngIf="logicalModelList?.length" class="d-flex">
+        <div class="physical-model-area">
+            <div class="pb-2">
+                <div class="header">Physical Model</div>
+            </div>
+            <div class="table-area">
+                <table #table class="table  table-bordered custom-table" >
+                    <thead>
+                      <tr>
+                        <th>LOB</th>
+                        <th>Subject Area</th>
+                        <th>Database</th>
+                        <th>Table</th>
+                        <th>Column</th>
+                        <th>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of dataSource; let i = index"
+                      [class.secondary-row]="i % 2 === 0">
+                        <td>{{ item.LOB }}</td>
+                        <td>{{ item['Subject Area'] }}</td>
+                        <td>{{ item.Database }}</td>
+                        <td>{{ item.Table }}</td>
+                        <td>{{ item.Column }}</td>
+                        <td>{{ item.Description }}</td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="similarity-area">
+            <div class="pb-2">
+                <div class="header">Similarity</div>
+            </div>
+            <div class="table-area">
+                <table #table1 class="table  table-bordered custom-table" >
+                    <thead>
+                      <tr>
+                        <th>Score</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of similarityList; let i = index"
+                      [class.secondary-row]="i % 2 === 0">
+                        <td>{{ item.score }} %</td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="logical-model-area">
+            <div class="pb-2">
+                <div class="header">Logical Model</div>
+            </div>
+            <div class="table-area">
+                <table #table2 class="table  table-bordered custom-table" >
+                    <thead>
+                      <tr>
+                        <th>Class</th>
+                        <th>Attribute</th>
+                        <th>Description</th>
+                        <th>Comments</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of logicalModelList; let i = index"
+                      [class.secondary-row]="i % 2 === 0">
+                        <td>{{ item.class }}</td>
+                        <td>{{ item.attribute }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.comments }}</td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     <div class="d-flex pt-2">
         <div class="">

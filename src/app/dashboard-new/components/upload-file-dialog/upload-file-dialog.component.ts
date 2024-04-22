@@ -65,6 +65,7 @@ export class UploadFileDialogComponent {
 
   openCsvTableDialog(jsonData: any){
     const dialogRef = this.dialog.open(CsvTableComponent,{
+      width: "900px",
       data: jsonData
     });
 
