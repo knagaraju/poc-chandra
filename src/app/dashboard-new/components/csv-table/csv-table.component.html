@@ -59,8 +59,12 @@
                         <td>{{ item['Subject Area'] }}</td>
                         <td>{{ item.Database }}</td>
                         <td>{{ item.Table }}</td>
-                        <td>{{ item.Column }}</td>
-                        <td>{{ item.Description }}</td>
+                        <td>
+                            <div>{{ item.Column }}</div>
+                        </td>
+                        <td>
+                            <div class="multiline-ellipsis">{{ item.Description }}</div>
+                        </td>
                       </tr>
                     </tbody>
                 </table>
@@ -105,7 +109,9 @@
                       [class.secondary-row]="i % 2 === 0">
                         <td>{{ item.class }}</td>
                         <td>{{ item.attribute }}</td>
-                        <td>{{ item.description }}</td>
+                        <td>
+                            <div class="multiline-ellipsis">{{ item.description }}</div>
+                        </td>
                         <td>{{ item.comments }}</td>
                       </tr>
                     </tbody>

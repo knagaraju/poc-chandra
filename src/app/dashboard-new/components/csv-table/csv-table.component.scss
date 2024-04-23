@@ -11,6 +11,12 @@
     color: white;
     white-space: nowrap;
 }
+.multiline-ellipsis{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /* Number of lines to display */
+    overflow: hidden;
+}
 
 .custom-table tbody tr td {
     border-color: #dee2e6;
