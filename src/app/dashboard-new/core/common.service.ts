@@ -30,4 +30,20 @@ export class CommonService {
     }
   }
   
+  getDashboardData(){
+    let record = {
+      batchId: "001", 
+      description: "Sales Practice Project", 
+      dateInitiated: "1/1/2023", 
+      dateCompleted: "1/5/2023", 
+      dataModname: "Data Modler Name",
+      status: "Completed"
+    }
+    let response = []
+    for(let i = 0; i < 50; i++){
+      
+      response.push({...record, batchId: `00${i+1}`, status: i % 2 === 0 ? "Completed" : "In Complete"});
+    }
+    return response;
+  }
 }

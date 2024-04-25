@@ -1,0 +1,72 @@
+<div class="add-batch-container">
+    <div>
+        <div class="pb-4 header">
+            Add Batch
+        </div>
+        <form #formData="ngForm" (ngSubmit)="onSubmit(formData)">
+            <div class="row mb-3">
+                <div class="form-group col-md-4">
+                    <label for="batchId">Batch ID</label>
+                    <input type="text" class="form-control custom-input" id="batchId" name="batchId"
+                     [(ngModel)]="formDataModel.batchId" required #batchId="ngModel"
+                     [ngClass]="{ 'is-invalid': formData.submitted && batchId.errors }">
+                    <div *ngIf="formData.submitted && batchId.errors" class="text-danger">
+                      <div *ngIf="batchId.errors['required']">Batch ID is required.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group col-md-12">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" [(ngModel)]="formDataModel.description"
+                     required class="form-control custom-input" #description="ngModel"
+                     [ngClass]="{ 'is-invalid': formData.submitted && description.errors }"></textarea>
+                     <div *ngIf="formData.submitted && description.errors" class="text-danger">
+                      <div *ngIf="description.errors['required']">Description is required.</div>
+                    </div>
+                  </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group col-md-4 dateFeild">
+                    <label for="dateInitiated">Date Initiated</label>
+                    <input  type="text"  class="form-control custom-input" id="dateInitiated" name="dateInitiated"
+                     [matDatepicker]="picker" name="dateInitiated" #dateInitiated="ngModel"
+                     [(ngModel)]="formDataModel.dateInitiated" required>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker> 
+                    <div *ngIf="formData.submitted && dateInitiated.errors" class="text-danger">
+                        <div *ngIf="dateInitiated.errors['required']">Date Initiated is required.</div>
+                    </div>
+                  </div>
+                
+                  <div class="form-group col-md-4">
+                    <label for="dataModelName">Data Modeler Name</label>
+                    <input type="text" class="form-control custom-input" id="dataModelName" name="dataModelName"
+                     [(ngModel)]="formDataModel.submitted" #dataModelName="ngModel" required
+                     [ngClass]="{ 'is-invalid': formData.submitted && dataModelName.errors }">
+                     <div *ngIf="formData.submitted && dataModelName.errors" class="text-danger">
+                      <div *ngIf="dataModelName.errors['required']">Data Model Name is required.</div>
+                    </div>
+                  </div>
+                
+                  <div class="form-group col-md-4">
+                    <label for="status">Status</label>
+                    <input type="text" class="form-control custom-input" id="status" name="status"
+                     [(ngModel)]="formDataModel.status" #status="ngModel" required
+                     [ngClass]="{ 'is-invalid': formData.submitted && status.errors }">
+                     <div *ngIf="formData.submitted && status.errors" class="text-danger">
+                      <div *ngIf="status.errors['required']">Status is required.</div>
+                    </div>
+                  </div>
+            </div>
+          <div class="d-flex mt-5">
+            <div class="me-4">
+                <button class="save-btn" type="submit">Save</button>
+            </div>
+            <div class="">
+                <button class="cancel-btn" type="button" (click)="closeDialog()">Cancel</button>
+            </div>
+          </div>
+        </form>          
+    </div>
+</div>

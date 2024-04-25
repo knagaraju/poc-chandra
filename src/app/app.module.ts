@@ -9,6 +9,8 @@ import { UploadFileDialogComponent } from './dashboard-new/components/upload-fil
 import {MatDialogModule} from '@angular/material/dialog';
 import { CsvTableComponent } from './dashboard-new/components/csv-table/csv-table.component';
 import { AdjustRowHeightDirective } from './dashboard-new/core/adjust-row-height.directive';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import { AdjustRowHeightDirective } from './dashboard-new/core/adjust-row-height
     BrowserModule,
     AppRoutingModule,
     MatDialogModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
     BrowserAnimationsModule,
   ],
   providers: [],

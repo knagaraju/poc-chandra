@@ -1,0 +1,48 @@
+.add-batch-container{
+    position: relative;
+    padding: 20px;
+}
+
+.header{
+    font-size: 20px;
+    font-weight: 600;
+}
+.custom-input {
+    border: 2px solid #00559e !important;
+}
+.form-group{
+    label {
+        text-transform: uppercase;
+        color: #00559e;
+        font-weight: 500;
+    }
+}
+
+.dateFeild{
+    position: relative;
+    .mat-datepicker-toggle{
+        top: 17px;
+        right: 7px;
+        position: absolute !important;
+    }
+}
+
+.save-btn {
+    background: #00559e;
+    border: 1px solid #00559e;
+    padding: 6px 40px;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.cancel-btn {
+    background: rgb(211, 32, 32);
+    border: 1px solid rgb(211, 32, 32);
+    padding: 6px 30px;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
+}

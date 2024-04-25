@@ -18,9 +18,12 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { FormsModule } from '@angular/forms';
 import { FileUploadService } from './services/file-upload.service';
 import { HttpClientModule } from '@angular/common/http';
+import { AddBatchDialogComponent } from './components/dashboard/add-batch-dialog/add-batch-dialog.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
-  declarations: [SidenavWrapperComponent, DashboardComponent, InfoComponent, UserComponent, CsvTableComponent],
+  declarations: [SidenavWrapperComponent, DashboardComponent, InfoComponent, UserComponent, CsvTableComponent, AddBatchDialogComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,
@@ -29,7 +32,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatDatepickerModule,
     MatToolbarModule,
+    MatNativeDateModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,

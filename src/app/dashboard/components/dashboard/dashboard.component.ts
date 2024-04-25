@@ -7,139 +7,168 @@ import { MatPaginator } from '@angular/material/paginator';
 import { FileUploadService } from '../../services/file-upload.service';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CommonService } from 'src/app/dashboard-new/core/common.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddBatchDialogComponent } from './add-batch-dialog/add-batch-dialog.component';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
-  selectedCSVFileName = "";
-  isCSV_Valid = false;
-  EmpData: any[] = [];
-  csvTableHeader1 = [];
-  csvTableData1: any[] = [];
-  customResults: any = [];
+export class DashboardComponent implements OnInit {
 
+  originalData: any[] = []
+  dataSource: any[] = [];
 
-  selectedFiles?: FileList;
-  currentFile?: File;
-  progress = 0;
-  message = '';
-  fileInfos?: Observable<any>;
+  paginatedItems: any[] = []; 
+  pageSize = 5; 
+  currentPage = 1; 
+  totalPages = 0; 
+  pages: number[] = []; 
 
-  constructor(private papa: Papa, private uploadService: FileUploadService) {
-    const csvData = '"Hello","World!"';
-    this.papa.parse(csvData, {
-      complete: (result: any) => {
-        console.log('Parsed: ', result);
-      }
-    });
+  sortByColumn: string = '';
+  sortOrder: string = '';
 
-
+  constructor(private commonService: CommonService, 
+      private dialog: MatDialog
+  ) {
 
   }
 
-  ngAfterViewInit() {
-
-  }
 
   ngOnInit() {
+    this.dataSource = this.commonService.getDashboardData();
+    this.originalData = this.commonService.getDashboardData();
+    this.totalPages = Math.ceil(this.dataSource.length / this.pageSize);
+    this.updatePageNumbers();
+    this.updatePaginatedItems();
+  }
 
+  updatePageNumbers() {
+    this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  updatePaginatedItems() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = Math.min(startIndex + this.pageSize, this.dataSource.length);
+    this.paginatedItems = this.dataSource.slice(startIndex, endIndex);
+  }
+
+  goToPage(page: number) {
+    this.currentPage = page;
+    this.updatePaginatedItems();
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePaginatedItems();
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePaginatedItems();
+    }
+  }
+
+  isPageVisible(page: number): boolean {
+    if (this.totalPages <= 5) {
+      return true; 
+    } else {
+      if (page === 1 || page === this.totalPages) {
+        return true; 
+      } else if (
+        page === this.currentPage ||
+        page === this.currentPage - 1 ||
+        page === this.currentPage + 1
+      ) {
+        return true;
+      } else if (
+        this.currentPage <= 4 &&
+        (page === 2 || page === 3 || page === 4)
+      ) {
+        return true; 
+      } else if (
+        this.currentPage >= this.totalPages - 3 &&
+        (page === this.totalPages - 1 ||
+          page === this.totalPages - 2 ||
+          page === this.totalPages - 3)
+      ) {
+        return true; 
+      } else if (
+        Math.abs(page - this.currentPage) <= 2 &&
+        Math.abs(page - this.currentPage) > 0
+      ) {
+        return true;
+      } else {
+        return false; 
+      }
+    }
   }
   
-  fileChangeListener($event: any): void {
-
-    const files = $event.srcElement.files;
-
-    if (files !== null && files !== undefined && files.length > 0) {
-      this.selectedCSVFileName = files[0].name;
-
-      const reader: FileReader = new FileReader();
-      reader.readAsText(files[0]);
-      reader.onload = e => {
-
-        const csv = reader.result;
-        let results = this.papa.parse(csv as string, { header: false });
-
-        // VALIDATE PARSED CSV FILE
-        if (results !== null && results !== undefined && results.data !== null &&
-          results.data !== undefined && results.data.length > 0 && results.errors.length === 0) {
-          this.isCSV_Valid = true;
-
-          // PERFORM OPERATIONS ON PARSED CSV
-          let csvTableHeader = results.data[0];
-          this.csvTableHeader1 = csvTableHeader;
-
-          let csvTableData = [...results.data.slice(1, results.data.length)];
-          this.csvTableData1 = csvTableData;
-          this.csvTableData1.forEach(item => {
-            let tempResult: any = {};
-            this.csvTableHeader1.forEach((key, i) => tempResult[key] = item[i]);
-            console.log('testing', tempResult);
-            this.customResults.push(tempResult);
-          });
-        } else {
-          for (let i = 0; i < results.errors.length; i++) {
-            console.log('Error Parsing CSV File: ', results.errors[i].message);
-          }
-        }
-      };
-
+  getPageNumberText(page: number): string {
+    if (page.toString() === '...') {
+      return '...';
     } else {
-      console.log('No File Selected');
+      return page.toString();
     }
   }
 
-
-/************************************************* */
-
-
-  selectFile(event: any): void {
-    this.selectedFiles = event.target.files;
+  getStartIndex(): number {
+    return (this.currentPage - 1) * this.pageSize + 1;
+  }
+  
+  getEndIndex(): number {
+    const endIndex = this.currentPage * this.pageSize;
+    return Math.min(endIndex, this.dataSource.length);
   }
 
-  upload(): void {
-    this.progress = 0;
+  sortBy(property: string) {
+    if (this.sortByColumn === property) {
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortByColumn = property;
+      this.sortOrder = 'asc';
+    }
 
-    if (this.selectedFiles) {
-      const file: File | null = this.selectedFiles.item(0);
-
-      if (file) {
-        this.currentFile = file;
-
-        this.uploadService.upload(this.currentFile).subscribe({
-          next: (event: any) => {
-            if (event.type === HttpEventType.UploadProgress) {
-              this.progress = Math.round(100 * event.loaded / event.total);
-            } else if (event instanceof HttpResponse) {
-              this.message = event.body.message;
-              this.fileInfos = this.uploadService.getFiles();
-            }
-          },
-          error: (err: any) => {
-            console.log(err);
-            this.progress = 0;
-
-            if (err.error && err.error.message) {
-              this.message = err.error.message;
-            } else {
-              this.message = 'Could not upload the file!';
-            }
-
-            this.currentFile = undefined;
-          }
-        });
+    this.dataSource.sort((a, b) => {
+      const modifier = this.sortOrder === 'asc' ? 1 : -1;
+      if (a[property] < b[property]) {
+        return -1 * modifier;
       }
-
-      this.selectedFiles = undefined;
-    }
+      if (a[property] > b[property]) {
+        return 1 * modifier;
+      }
+      return 0;
+    });
+    this.updatePageNumbers();
+    this.updatePaginatedItems();
   }
 
+  search(searchText: string) {
+    this.dataSource = this.originalData.filter(item => {
+      // Perform case-insensitive search on item properties
+      return Object.values(item).some((value:any) =>
+        value.toString().toLowerCase().includes(searchText.toLowerCase())
+      );
+    });
+    this.updatePageNumbers();
+    this.updatePaginatedItems();
+  }
 
+  openAddbatch(){
+    const dialogRef = this.dialog.open(AddBatchDialogComponent,{
+      width: "700px"
+    });
 
-
-
-
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        console.log("refresh the table data")
+      }
+    });
+  }
 }
 
