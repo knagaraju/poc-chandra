@@ -1,16 +1,62 @@
 
 mat-sidenav-container {
   height: 100%;
+  .brand-logo{
+    font-size: 25px;
+    font-weight: 600;
+    color: white;
+    margin-left: 5px;
+    .brand-yellow{
+      color: orange;
+    }
+  }
+
+  
+
+  .mat-side-nav-area{
+    width: 260px ;
+    background-color: #00559e;
+  }
+
+  .active-link{
+    .menu-item-area{
+      background-color: orange;
+      border-radius: 7px;
+    }
+  }
+
+  .mat-side-nav-content-area{
+    margin-left: 260px ;
+  }
+
+  .material-icons{
+    color: white;
+    font-size: 20px;
+    padding-top: 4px;
+  }
 
   mat-sidenav {
     mat-nav-list {
       .menu-item {
         margin-left: 8px;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .menu-item-area{
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        .bi{
+          color: white !important;
+          font-size: 16px;
+        }
       }
 
       .chevron-button {
         transition: 300ms ease-in-out;
         transform: rotate(0deg);
+        color: white;
       }
 
       .chevron-button.rotated {
@@ -18,4 +64,30 @@ mat-sidenav-container {
       }
     }
   }
+}
+
+.collaped-sidenav{
+  .mat-side-nav-area{
+    width: 70px !important;
+  }
+  .mat-side-nav-content-area{
+    margin-left: 70px !important;
+  }
+  .menu-item-area{
+    padding: 6px 8px 5px 8px !important;
+    border-radius: 10px;
+  }
+}
+
+.divider{
+  border-bottom: 1px solid #507ca8;
+  padding-top: 7px;
+}
+.copy-rights{
+  position: absolute;
+    bottom: 16px;
+    color: white;
+    left: 26px;
+    display: flex;
+    align-items: center;
 }
