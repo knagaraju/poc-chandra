@@ -46,4 +46,14 @@ export class CommonService {
     }
     return response;
   }
+
+  loginApi(reqBody: any){
+    if(reqBody.userName === "test@gmail.com" && reqBody.password === "test@123"){
+      return {
+        token: "dsfsdfdfsdfsdf2342342342"
+      }
+    }else{
+      return false;
+    }
+  }
 }

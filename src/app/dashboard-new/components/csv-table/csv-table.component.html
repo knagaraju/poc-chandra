@@ -108,9 +108,17 @@
                       <tr *ngFor="let item of logicalModelList; let i = index"
                       [class.secondary-row]="i % 2 === 0">
                         <td>{{ item.class }}</td>
-                        <td>{{ item.attribute }}</td>
+                        <td>
+                            <span *ngIf="!editMode">{{ item.attribute }}</span>
+                            <div *ngIf="editMode">
+                                <input [(ngModel)]="item.attribute" />
+                            </div>
+                        </td>
                         <td>
                             <div class="multiline-ellipsis">{{ item.description }}</div>
+                            <div>
+                                <input [(ngModel)]="item.description" />
+                            </div>
                         </td>
                         <td>{{ item.comments }}</td>
                       </tr>
@@ -121,7 +129,7 @@
     </div>
     <div class="d-flex pt-2">
         <div class="">
-            <button class="save-btn">Save</button>
+            <button class="save-btn" (click)="updateRecords()">Update</button>
         </div>
         <div class="ms-auto">
             <button class="cancel-btn">Cancel</button>

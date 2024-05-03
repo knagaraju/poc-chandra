@@ -15,6 +15,8 @@ export class CsvTableComponent {
 
   dataSource: any[] = []
 
+  editMode: boolean = true;
+
   @ViewChildren('table, table1, table2') tables!: QueryList<ElementRef<HTMLTableElement>>;
 
 
@@ -71,5 +73,9 @@ export class CsvTableComponent {
         rows[i].style.height = maxRowHeights[i] + 'px';
       }
     });
+  }
+
+  updateRecords(){
+    console.log("similarityList", this.logicalModelList);
   }
 }

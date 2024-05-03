@@ -1,0 +1,41 @@
+<div class="login-container d-flex justify-content-center align-items-center vh-100">
+    <div class="login-box">
+      <div class="mb-4">
+        <div class="heading-area">
+            <span class="ms-1">Welcome to</span><br><span class="heading-color">our web portal</span>
+        </div>
+      </div>
+      <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+        <div class="mb-3">
+          <input type="text" class="form-control custom-input" id="username" placeholder="User Name"
+           name="username" [(ngModel)]="loginFormData.username" #username="ngModel" required>
+          <div *ngIf="loginForm.submitted && username.errors">
+            <div *ngIf="username.errors['required']" class="text-danger">
+                Username is required
+              </div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <input type="password" class="form-control custom-input" id="password" name="password"
+           [(ngModel)]="loginFormData.password" #password="ngModel" required placeholder="Password">
+          <div *ngIf="loginForm.submitted && password.errors">
+            <div *ngIf="password.errors['required']" class="text-danger">
+                Password is required
+              </div>
+          </div>
+        </div>
+        <div class="d-flex mb-4">
+            <div class="forgot-password mt-1">
+                Forgot Username/Password?
+            </div>
+            <div class="form-check ms-auto">
+                <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe" [(ngModel)]="loginFormData.rememberMe">
+                <label class="form-check-label mt-1 ms-1" for="rememberMe">Remember me</label>
+            </div>
+        </div>
+        <button type="submit" class="login-btn d-block mx-auto">Sign In</button>
+      </form>
+      
+    </div>
+</div>
+  

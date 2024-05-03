@@ -11,6 +11,8 @@ import { CsvTableComponent } from './dashboard-new/components/csv-table/csv-tabl
 import { AdjustRowHeightDirective } from './dashboard-new/core/adjust-row-height.directive';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { FormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -19,7 +21,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     HomeComponent,
     UploadFileDialogComponent,
     CsvTableComponent,
-    AdjustRowHeightDirective
+    AdjustRowHeightDirective,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -28,6 +31,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatNativeDateModule,
     MatDatepickerModule,
     BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
