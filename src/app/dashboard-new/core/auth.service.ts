@@ -12,7 +12,7 @@ export class AuthService {
     if(token){
       return true
     }else{
-      false
+      return false
     }
   }
 }

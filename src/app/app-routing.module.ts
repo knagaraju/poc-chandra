@@ -2,6 +2,9 @@ import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './dashboard-new/components/home/home.component';
 import { LoginComponent } from './login/login.component';
+import { SidenavWrapperComponent } from './dashboard/components/sidenav-wrapper/sidenav-wrapper.component';
+import { authGuard } from './dashboard-new/core/guards/auth.guard';
+import { logoutGuard } from './dashboard-new/core/guards/logout.guard';
 
 const routes: Routes = [
   // lazy loaded dashboard module
@@ -12,21 +15,29 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [logoutGuard]
   },
   {
     path: '',
-    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+    component: SidenavWrapperComponent,
+    children: [
+      {
+        path: 'dashboard',
+        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+        canActivate: [authGuard]
+      },
+    ]
   },
   {
     path: 'home',
     component: HomeComponent
   },
-  // {
-  //   path: '**',
-  //   redirectTo: '',
-  //   pathMatch: 'full'
-  // }
+  {
+    path: '**',
+    redirectTo: '',
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({

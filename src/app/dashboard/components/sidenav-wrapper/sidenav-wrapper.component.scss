@@ -29,11 +29,7 @@ mat-sidenav-container {
     margin-left: 260px ;
   }
 
-  .material-icons{
-    color: white;
-    font-size: 20px;
-    padding-top: 4px;
-  }
+  
 
   mat-sidenav {
     mat-nav-list {
@@ -51,6 +47,12 @@ mat-sidenav-container {
           color: white !important;
           font-size: 16px;
         }
+      }
+
+      .material-icons{
+        color: white;
+        font-size: 20px;
+        padding-top: 4px;
       }
 
       .chevron-button {
@@ -90,4 +92,36 @@ mat-sidenav-container {
     left: 26px;
     display: flex;
     align-items: center;
+}
+
+
+
+
+
+///
+/// 
+.mat-side-nav-content-area{
+  .material-symbols-outlined {
+    font-size: 28px;
+    color: gray;
+    border-right: 1px solid gray;
+    padding: 0px 10px;
+    margin-top: 10px;
+  }
+  
+  .msg-icon{
+    border-left: 1px solid gray; 
+  }
+  .dropdown-toggle{
+    font-weight: 400;
+  }
+  .dropdown-item{
+    cursor: pointer;
+  }
+}
+
+.avatar-img{
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
 }
