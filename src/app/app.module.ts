@@ -13,6 +13,10 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
+import { ToastrModule } from 'ngx-toastr';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { ApiInterceptor } from './dashboard-new/core/http.interceptor';
+import { LoaderComponent } from './dashboard-new/core/components/loader/loader.component';
 
 
 @NgModule({
@@ -22,7 +26,8 @@ import { LoginComponent } from './login/login.component';
     UploadFileDialogComponent,
     CsvTableComponent,
     AdjustRowHeightDirective,
-    LoginComponent
+    LoginComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -31,9 +36,17 @@ import { LoginComponent } from './login/login.component';
     MatNativeDateModule,
     MatDatepickerModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
+    ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

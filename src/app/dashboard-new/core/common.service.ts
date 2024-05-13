@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import csvtojson from 'csvtojson';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -17,7 +19,7 @@ export class CommonService {
     {class: 'student Demographics', attribute: 'student first name', description: "firstname of student is written on Id", comments: "Score is less than 50%"}
   ]
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   async convertCsvToJson(csvData: string): Promise<any[]> {
     return await csvtojson().fromString(csvData);
@@ -47,13 +49,14 @@ export class CommonService {
     return response;
   }
 
-  loginApi(reqBody: any){
-    if(reqBody.userName === "test@gmail.com" && reqBody.password === "test@123"){
-      return {
-        token: "dsfsdfdfsdfsdf2342342342"
-      }
-    }else{
-      return false;
-    }
+  loginApi(reqBody: any): Observable<any>{
+    return this.http.post("https://dev-api-rsense.blunode.in/api/v1/auth/sign_in", reqBody);
+    // if(reqBody.userName === "test@gmail.com" && reqBody.password === "test@123"){
+    //   return {
+    //     token: "dsfsdfdfsdfsdf2342342342"
+    //   }
+    // }else{
+    //   return false;
+    // }
   }
 }
