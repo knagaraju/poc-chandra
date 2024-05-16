@@ -21,9 +21,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { AddBatchDialogComponent } from './components/dashboard/add-batch-dialog/add-batch-dialog.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
-  declarations: [SidenavWrapperComponent, DashboardComponent, InfoComponent, UserComponent, CsvTableComponent, AddBatchDialogComponent],
+  declarations: [SidenavWrapperComponent, DashboardComponent, InfoComponent, UserComponent, CsvTableComponent, AddBatchDialogComponent, ProfileComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,

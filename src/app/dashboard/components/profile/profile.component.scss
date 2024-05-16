@@ -1,0 +1,25 @@
+.profile-container{
+    padding: 30px;
+    .heading{
+        font-size: 30px;
+        font-weight: 700;
+    }
+    .left-section{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .avatar-img{
+            width: 350px;
+            height: 350px;
+            border-radius: 10px;
+        }
+    }
+    .label{
+        font-size: 20px;
+        font-weight: 600;
+    }
+    .details{
+        font-size: 18px;
+        color: #5e5e5e;
+    }
+}

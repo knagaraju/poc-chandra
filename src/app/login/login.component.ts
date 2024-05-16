@@ -28,19 +28,15 @@ export class LoginComponent {
         userName: this.loginFormData.username,
         password: this.loginFormData.password
       }
-      this.commonService.loginApi(payload).subscribe((res:any) => {
-        this.toastrService.success("loggin successful", res);
-        localStorage.setItem("token", "234324")
+      let result = this.commonService.loginApi(payload);
+      if(result){
+        this.toastrService.success("loggin successful");
+        localStorage.setItem("token", "423423")
         this.router.navigate(['/dashboard']);
-      });
-      // if(result){
-      //   this.toastrService.success("loggin successful");
-      //   localStorage.setItem("token", result.token)
-      //   this.router.navigate(['/dashboard']);
-      // }else{
-      //   this.toastrService.error("User name or password is wrong. Please try again");
-      //   //alert("User name or password is wrong. Please try again");
-      // }
+      }else{
+        this.toastrService.success("loggin successful");
+        alert("User name or password is wrong. Please try again");
+      }
     }
   }
 }
