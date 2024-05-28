@@ -41,7 +41,7 @@ export class CsvTableComponent {
     this.logicalModelList = response.logicalModelList;
     this.similarityList = response.similarityList;
     setTimeout(() => {
-      this.syncRowHeights()
+      //this.syncRowHeights()
     }, 500);
   }
 

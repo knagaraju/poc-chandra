@@ -42,7 +42,7 @@
             </div>
             <div class="table-area">
                 <table #table class="table  table-bordered custom-table" >
-                    <thead>
+                    <thead style="position: sticky;top: 0">
                       <tr>
                         <th>LOB</th>
                         <th>Subject Area</th>
@@ -50,6 +50,11 @@
                         <th>Table</th>
                         <th>Column</th>
                         <th>Description</th>
+                        <th class="similarity-th">Score</th>
+                        <th class="logical-th logic-border-first">Class</th>
+                        <th class="logical-th">Attribute</th>
+                        <th class="logical-th">Description</th>
+                        <th class="logical-th logic-border-last">Comments</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -65,12 +70,27 @@
                         <td>
                             <div class="multiline-ellipsis">{{ item.Description }}</div>
                         </td>
+                        <td>{{ item.score }} %</td>
+                        <td>{{ item.class }}</td>
+                        <td>
+                            <span *ngIf="!editMode">{{ item.attribute }}</span>
+                            <div *ngIf="editMode">
+                                <input [(ngModel)]="item.attribute" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="multiline-ellipsis">{{ item.description }}</div>
+                            <div>
+                                <input [(ngModel)]="item.description" />
+                            </div>
+                        </td>
+                        <td>{{ item.comments }}</td>
                       </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="similarity-area">
+        <!-- <div class="similarity-area">
             <div class="pb-2">
                 <div class="header">Similarity</div>
             </div>
@@ -89,8 +109,8 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="logical-model-area">
+        </div> -->
+        <!-- <div class="logical-model-area">
             <div class="pb-2">
                 <div class="header">Logical Model</div>
             </div>
@@ -125,7 +145,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="d-flex pt-2">
         <div class="">
