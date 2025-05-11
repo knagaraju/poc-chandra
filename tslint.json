@@ -1,152 +1,177 @@
-{
-  "extends": "tslint:recommended",
-  "rulesDirectory": [
-    "codelyzer"
-  ],
-  "rules": {
-    "align": {
-      "options": [
-        "parameters",
-        "statements"
-      ]
-    },
-    "array-type": false,
-    "arrow-return-shorthand": true,
-    "curly": true,
-    "deprecation": {
-      "severity": "warning"
-    },
-    "eofline": true,
-    "import-blacklist": [
-      true,
-      "rxjs/Rx"
-    ],
-    "import-spacing": true,
-    "indent": {
-      "options": [
-        "spaces"
-      ]
-    },
-    "max-classes-per-file": false,
-    "max-line-length": [
-      true,
-      140
-    ],
-    "member-ordering": [
-      true,
-      {
-        "order": [
-          "static-field",
-          "instance-field",
-          "static-method",
-          "instance-method"
-        ]
-      }
-    ],
-    "no-console": [
-      true,
-      "debug",
-      "info",
-      "time",
-      "timeEnd",
-      "trace"
-    ],
-    "no-empty": false,
-    "no-inferrable-types": [
-      true,
-      "ignore-params"
-    ],
-    "no-non-null-assertion": true,
-    "no-redundant-jsdoc": true,
-    "no-switch-case-fall-through": true,
-    "no-var-requires": false,
-    "object-literal-key-quotes": [
-      true,
-      "as-needed"
-    ],
-    "quotemark": [
-      true,
-      "single"
-    ],
-    "semicolon": {
-      "options": [
-        "always"
-      ]
-    },
-    "space-before-function-paren": {
-      "options": {
-        "anonymous": "never",
-        "asyncArrow": "always",
-        "constructor": "never",
-        "method": "never",
-        "named": "never"
-      }
-    },
-    "typedef": [
-      true,
-      "call-signature"
-    ],
-    "typedef-whitespace": {
-      "options": [
-        {
-          "call-signature": "nospace",
-          "index-signature": "nospace",
-          "parameter": "nospace",
-          "property-declaration": "nospace",
-          "variable-declaration": "nospace"
-        },
-        {
-          "call-signature": "onespace",
-          "index-signature": "onespace",
-          "parameter": "onespace",
-          "property-declaration": "onespace",
-          "variable-declaration": "onespace"
+  // LoggingHttpClientWrapper.java
+package com.example.microservice;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Flow;
+
+public class LoggingHttpClientWrapper extends HttpClient {
+    private static final Logger logger = LoggerFactory.getLogger(LoggingHttpClientWrapper.class);
+    private final HttpClient delegate;
+
+    public LoggingHttpClientWrapper(HttpClient delegate) {
+        this.delegate = delegate;
+    }
+
+    @Override
+    public <T> HttpResponse<T> send(HttpRequest request, HttpResponse.BodyHandler<T> responseBodyHandler) throws java.io.IOException, java.lang.InterruptedException {
+        HttpRequest wrappedRequest = wrapRequest(request);
+        logRequest(wrappedRequest);
+        HttpResponse<T> response = delegate.send(wrappedRequest, responseBodyHandler);
+        logResponse(response);
+        return response;
+    }
+
+    @Override
+    public <T> CompletableFuture<HttpResponse<T>> sendAsync(HttpRequest request, HttpResponse.BodyHandler<T> responseBodyHandler) {
+        HttpRequest wrappedRequest = wrapRequest(request);
+        logRequest(wrappedRequest);
+        return delegate.sendAsync(wrappedRequest, responseBodyHandler)
+                .thenApply(response -> {
+                    logResponse(response);
+                    return response;
+                });
+    }
+
+    private HttpRequest wrapRequest(HttpRequest request) {
+        return HttpRequest.newBuilder()
+                .uri(request.uri())
+                .method(request.method(), request.bodyPublisher()
+                        .map(publisher -> new LoggingBodyPublisher(publisher))
+                        .orElse(HttpRequest.BodyPublishers.noBody()))
+                .headers(request.headers().map().entrySet().stream()
+                        .flatMap(e -> e.getValue().stream().map(v -> new String[]{e.getKey(), v}))
+                        .toArray(String[]::new))
+                .timeout(request.timeout().orElse(null))
+                .build();
+    }
+
+    private void logRequest(HttpRequest request) {
+        logger.info("=== Request ===");
+        logger.info("Method: {}", request.method());
+        logger.info("URI: {}", request.uri());
+        logger.info("Headers: {}", request.headers().map());
+        request.bodyPublisher().filter(publisher -> publisher instanceof LoggingBodyPublisher)
+                .map(publisher -> ((LoggingBodyPublisher) publisher).getBody())
+                .ifPresent(body -> logger.info("Body: {}", body));
+    }
+
+    private <T> void logResponse(HttpResponse<T> response) {
+        logger.info("=== Response ===");
+        logger.info("Status: {}", response.statusCode());
+        logger.info("Headers: {}", response.headers().map());
+        logger.info("Body: {}", response.body() != null ? response.body().toString() : "<empty>");
+    }
+
+    // Custom BodyPublisher to log request body
+    static class LoggingBodyPublisher implements HttpRequest.BodyPublisher {
+        private final HttpRequest.BodyPublisher delegate;
+        private final String body;
+
+        LoggingBodyPublisher(HttpRequest.BodyPublisher delegate) {
+            this.delegate = delegate;
+            this.body = extractBody(delegate);
         }
-      ]
-    },
-    "variable-name": {
-      "options": [
-        "ban-keywords",
-        "check-format",
-        "allow-pascal-case"
-      ]
-    },
-    "whitespace": {
-      "options": [
-        "check-branch",
-        "check-decl",
-        "check-operator",
-        "check-separator",
-        "check-type",
-        "check-typecast"
-      ]
-    },
-    "component-class-suffix": true,
-    "contextual-lifecycle": true,
-    "directive-class-suffix": true,
-    "no-conflicting-lifecycle": true,
-    "no-host-metadata-property": true,
-    "no-input-rename": true,
-    "no-inputs-metadata-property": true,
-    "no-output-native": true,
-    "no-output-on-prefix": true,
-    "no-output-rename": true,
-    "no-outputs-metadata-property": true,
-    "template-banana-in-box": true,
-    "template-no-negated-async": true,
-    "use-lifecycle-interface": true,
-    "use-pipe-transform-interface": true,
-    "directive-selector": [
-      true,
-      "attribute",
-      "app",
-      "camelCase"
-    ],
-    "component-selector": [
-      true,
-      "element",
-      "app",
-      "kebab-case"
-    ]
-  }
+
+        private String extractBody(HttpRequest.BodyPublisher publisher) {
+            try {
+                // Buffer the body content
+                ByteBuffer[] buffers = new ByteBuffer[1];
+                publisher.subscribe(new Flow.Subscriber<ByteBuffer>() {
+                    private final java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+
+                    @Override
+                    public void onSubscribe(Flow.Subscription subscription) {
+                        subscription.request(Long.MAX_VALUE);
+                    }
+
+                    @Override
+                    public void onNext(ByteBuffer item) {
+                        baos.write(item.array(), item.position(), item.remaining());
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        logger.error("Error extracting body", throwable);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        buffers[0] = ByteBuffer.wrap(baos.toByteArray());
+                    }
+                });
+                return buffers[0] != null ? new String(buffers[0].array(), StandardCharsets.UTF_8) : "";
+            } catch (Exception e) {
+                logger.error("Failed to extract request body", e);
+                return "<error extracting body>";
+            }
+        }
+
+        String getBody() {
+            return body;
+        }
+
+        @Override
+        public long contentLength() {
+            return delegate.contentLength();
+        }
+
+        @Override
+        public void subscribe(Flow.Subscriber<? super ByteBuffer> subscriber) {
+            delegate.subscribe(subscriber);
+        }
+    }
+
+    // Delegate other HttpClient methods
+    @Override
+    public java.util.Optional<java.net.http.HttpClient.Redirect> followRedirects() {
+        return delegate.followRedirects();
+    }
+
+    @Override
+    public java.util.Optional<java.net.ProxySelector> proxy() {
+        return delegate.proxy();
+    }
+
+    @Override
+    public javax.net.ssl.SSLContext sslContext() {
+        return delegate.sslContext();
+    }
+
+    @Override
+    public javax.net.ssl.SSLParameters sslParameters() {
+        return delegate.sslParameters();
+    }
+
+    @Override
+    public java.util.Optional<java.net.Authenticator> authenticator() {
+        return delegate.authenticator();
+    }
+
+    @Override
+    public java.time.Duration connectTimeout() {
+        return delegate.connectTimeout();
+    }
+
+    @Override
+    public java.util.Optional<java.util.concurrent.Executor> executor() {
+        return delegate.executor();
+    }
+
+    @Override
+    public HttpClient.Version version() {
+        return delegate.version();
+    }
+
+    @Override
+    public <T> CompletableFuture<HttpResponse<T>> sendAsync(HttpRequest request, HttpResponse.BodyHandler<T> responseBodyHandler, HttpResponse.PushPromiseHandler<T> pushPromiseHandler) {
+        return delegate.sendAsync(request, responseBodyHandler, pushPromiseHandler);
+    }
 }
